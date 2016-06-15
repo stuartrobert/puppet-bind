@@ -18,6 +18,13 @@ class bind::config {
   $conf = deep_merge($bind::params::default_config, $bind::config)
   $logging = deep_merge($bind::params::default_logging, $bind::logging)
 
+  if $bind::controls {
+    $controls = $bind::controls
+  }
+  else {
+    $controls = $bind::params::default_controls
+  }
+
   file {"${bind::params::config_base_dir}/${bind::params::named_conf_name}":
     ensure  => file,
     content => template('bind/named.conf.erb'),
