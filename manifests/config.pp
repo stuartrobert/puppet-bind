@@ -107,18 +107,4 @@ class bind::config {
     seltype => 'named_log_t',
   }
 
-  $opts = {
-
-      'include'       => "\"${bind::params::config_base_dir}/${bind::params::default_zones_file}\"",
-      'match-clients' => [ '"any"' ],
-      'recursion'     => 'no',
-    }
-
-  $options = deep_merge($opts, $bind::default_view)
-
-  ::bind::view {'default':
-    options => $options,
-    order   => 100,
-  }
-
 }

@@ -49,7 +49,6 @@
 #
 class bind(
   $chroot       = false,
-  $default_view = {},
   $config       = {},
   $logging      = {},
   $controls     = undef,
