@@ -51,7 +51,7 @@ class bind(
   $chroot       = false,
   $config       = {},
   $logging      = {},
-  $controls     = undef,
+  $controls     = {},
 ) {
   anchor { 'bind::begin': } ->
   class { '::bind::install': } ->
