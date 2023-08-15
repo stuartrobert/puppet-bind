@@ -48,3 +48,10 @@ logging {
   };
 <%end -%>
 };
+<%- if !@statistics_channels.empty? -%>
+statistics-channels {
+<% @statistics_channels.sort_by {|k, v| k}.each do |stat_ip, stat_hash| -%>
+  inet <%= stat_ip %> port <%= stat_hash['port'] %> allow { <% stat_hash['allowed'].sort.each do |address| %><%= address %>; <% end %>};
+<% end -%>
+};
+<%- end -%>

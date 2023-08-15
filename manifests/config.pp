@@ -18,6 +18,8 @@ class bind::config {
   $conf = deep_merge($bind::params::default_config, $bind::config)
   $logging = deep_merge($bind::params::default_logging, $bind::logging)
 
+  $statistics_channels = $bind::statistics_channels
+
   if $bind::controls {
     $controls = $bind::controls
   }

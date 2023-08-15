@@ -48,10 +48,11 @@
 # }
 #
 class bind(
-  $chroot       = false,
-  $config       = {},
-  $logging      = {},
-  $controls     = {},
+  $chroot               = false,
+  $config               = {},
+  $logging              = {},
+  $controls             = {},
+  $statistics_channels  = {},
 ) {
   anchor { 'bind::begin': } ->
   class { '::bind::install': } ->
