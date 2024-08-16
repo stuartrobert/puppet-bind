@@ -12,20 +12,12 @@
 # key pair generation.
 #
 define bind::key(
-  $secret,
-  $ensure    = present,
-  $algorithm = 'hmac-md5',
+  String $secret,
+  Enum['present', 'absent'] $ensure = 'present',
+  String $algorithm                 = 'hmac-md5',
 ) {
 
   include ::bind::params
-
-  validate_string($ensure)
-  validate_re($ensure, ['present', 'absent'],
-              "\$ensure must be either 'present' or 'absent', got '${ensure}'")
-
-  validate_string($algorithm)
-  validate_string($secret)
-
 
   file {"${bind::params::keys_directory}/${name}.conf":
     ensure  => $ensure,

@@ -11,30 +11,21 @@
 #  For other arguments, please refer to bind::records !
 #
 define bind::a(
-  $zone,
-  $hash_data,
-  $ensure           = present,
-  $zone_arpa        = undef,
-  $ptr              = true,
-  $content          = undef,
-  $content_template = undef,
+  String $zone,
+  Hash $hash_data,
+  Enum['present', 'absent'] $ensure = 'present',
+  Optional[String] $zone_arpa        = undef,
+  Boolean $ptr                       = true,
+  $content                           = undef,
+  $content_template                  = undef,
 ) {
-
-  validate_string($ensure)
-  validate_re($ensure, ['present', 'absent'],
-              "\$ensure must be either 'present' or 'absent', got '${ensure}'")
-
-  validate_string($zone)
-  validate_string($zone_arpa)
-  validate_hash($hash_data)
-  validate_bool($ptr)
 
   if ($ptr and !$zone_arpa) {
     fail 'You need zone_arpa if you want the PTR!'
   }
 
   if ($content and $content_template) {
-    fail '$content and $content_template are mutually exclusive'
+    fail "${content} and ${content_template} are mutually exclusive"
   }
 
   bind::record {$name:

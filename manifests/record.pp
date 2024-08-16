@@ -25,23 +25,14 @@
 #        }
 #
 define bind::record (
-  $zone,
-  $hash_data,
-  $record_type,
-  $ensure           = present,
-  $content          = undef,
-  $content_template = undef,
-  $ptr_zone         = undef,
+  String $zone,
+  Hash $hash_data,
+  String $record_type,
+  Enum['present', 'absent'] $ensure  = 'present',
+  $content                           = undef,
+  Optional[String] $content_template = undef,
+  Optional[String] $ptr_zone         = undef,
 ) {
-
-  validate_string($ensure)
-  validate_re($ensure, ['present', 'absent'],
-              "\$ensure must be either 'present' or 'absent', got '${ensure}'")
-
-  validate_string($zone)
-  validate_string($record_type)
-  validate_string($ptr_zone)
-  validate_hash($hash_data)
 
   if ($content_template and $content) {
     fail '$content and $content_template are mutually exclusive'
@@ -49,7 +40,6 @@ define bind::record (
 
   if($content_template){
     warning '$content_template is deprecated. Please use $content parameter.'
-    validate_string($content_template)
     $record_content = template($content_template)
   }elsif($content){
     $record_content = $content
