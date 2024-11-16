@@ -1,7 +1,7 @@
 <%- | 
   Hash $hash_data,
   String $record_type,
-  String $ptr_zone,
+  Optional[String] $ptr_zone = undef,
 | -%>
 <%-
   $hash_data.sort.each |$host, $datas| {
