@@ -14,7 +14,7 @@
     if $record_type == 'PTR' {
       if $host != '@' {
 -%>
-<%= extlib.ip_to_reverse($datas['owner']) %>. <%= $_ttl %> IN PTR <%= $host %>.<%= $ptr_zone %>.
+<%= extlib::ip_to_reverse($datas['owner']) %>. <%= $_ttl %> IN PTR <%= $host %>.<%= $ptr_zone %>.
 <%- 
       }
     } else { # We have a non-PTR record:
