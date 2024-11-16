@@ -6,27 +6,24 @@
 <%-
   $hash_data.each |$host, $datas| {
     # bind::bind_check_hostname([$host, $record_type])
-    if  $record_type == 'PTR' {
-      if $host != '@' {
-        if $datas['ptr'] {
-          require 'ipaddr'
--%>
-<%= IPAddr.new($datas['owner']).reverse %>. <%= $datas.fetch('ttl', '') %> IN PTR <%= $host %>.<%= $ptr_zone %>.
-<%- 
-        }
-      }
-    }
-    # We have a non-PTR record:
     if $datas['ttl'] != undef {
       $_ttl = $datas['ttl']
     } else {
       $_ttl = ''
     }
-    if $datas['record_class'] != undef {
-      $_rc = $datas['record_class']
-    } else {
-      $_rc = 'IN'
-    }
+    if $record_type == 'PTR' {
+      if $host != '@' {
+          require 'ipaddr'
+-%>
+<%= IPAddr.new($datas['owner']).reverse %>. <%= $_ttl %> IN PTR <%= $host %>.<%= $ptr_zone %>.
+<%- 
+      }
+    } else { # We have a non-PTR record:
+      if $datas['record_class'] != undef {
+        $_rc = $datas['record_class']
+      } else {
+        $_rc = 'IN'
+      }
 -%>
 <%= $host %> <%= $_ttl %> <%= $_rc %> <%= $record_type %> <%= $datas['owner'] %>
 <%- 
