@@ -35,7 +35,7 @@ class bind::params {
         $service_has_status   = true
         #$service_pattern will only be used if $service_has_status is false
         $service_pattern      = undef
-        $service_restart      = '/etc/init.d/bind9 reload'
+        $service_restart      = "/usr/bin/systemctl reload ${service_name}"
         $config_base_dir      = '/etc/bind'
         $named_conf_name      = 'named.conf'
         $named_local_name     = 'named.conf.local'
