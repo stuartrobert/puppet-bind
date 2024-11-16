@@ -19,13 +19,13 @@ class bind::params {
       },
     }
 
-   $default_controls = {
-     '127.0.0.1' => {
-       'port'              => 953,
-       'allowed_addresses' => [ '127.0.0.1' ],
-       'keys'              => [ 'rndc-key' ]
-      },
-    }
+  $default_controls = {
+    '127.0.0.1' => {
+      'port'              => 953,
+      'allowed_addresses' => [ '127.0.0.1' ],
+      'keys'              => [ 'rndc-key' ]
+    },
+  }
 
     if $facts['os']['family'] == 'Debian' {
         $package_name         = 'bind9'
