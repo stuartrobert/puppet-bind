@@ -36,7 +36,7 @@ define bind::records (
   if ($content) {
     $record_content = $content
   } else {
-    $record_content = template('bind/default-record.epp')
+    $record_content = template('bind/records.epp')
   }
 
   if $ensure == 'present' {
