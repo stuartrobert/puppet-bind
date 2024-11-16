@@ -61,7 +61,7 @@ Puppet::Functions.create_function(:'bind::bind_check_hostname') do
     # Nothing left to check, and is_domain_name fails empty
     return true if domain == ''
 
-    return function_is_domain_name([domain])
+    return validate_domain_name([domain])
   
   end
 end

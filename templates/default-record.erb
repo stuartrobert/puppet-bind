@@ -1,6 +1,6 @@
 <%- 
 @hash_data.sort.each do |host, datas|
-  raise(Puppet::ParseError, "'#{host}' is NOT a valid name") unless scope.function_bind_check_hostname([host, @record_type])
+  raise(Puppet::ParseError, "'#{host}' is NOT a valid name") unless scope.call_function('bind:bind_check_hostname',[host, @record_type])
   if  @record_type == 'PTR'
     if host != '@'
       if datas.fetch('ptr',true) 
@@ -10,7 +10,7 @@
       end
     end
   else 
-    raise(Puppet::ParseError, "#{datas.fetch('owner')} is NOT a valid IP") unless (scope.function_is_ip_address([datas.fetch('owner')]) or @record_type != 'A' or @record_type != 'AAAA')
+    raise(Puppet::ParseError, "#{datas.fetch('owner')} is NOT a valid IP") unless (scope.call_function('is_ip_address', [datas.fetch('owner')]) or @record_type != 'A' or @record_type != 'AAAA')
 -%>
 <%= host %> <%= datas.fetch('ttl', '') %> <%=datas.fetch('record_class', 'IN')%> <%= @record_type %> <%= datas.fetch('owner') %>
 <%- 
