@@ -23,9 +23,9 @@
       } else {
         $_rc = 'IN'
       }
-    }
 -%>
 <%= $host %> <%= $_ttl %> <%= $_rc %> <%= $record_type %> <%= $datas['owner'] %>
 <%- 
+    }
   }
 -%>
