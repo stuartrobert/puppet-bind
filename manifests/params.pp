@@ -19,7 +19,15 @@ class bind::params {
       },
     }
 
-    if $::osfamily == 'Debian' {
+   $default_controls = {
+     '127.0.0.1' => {
+       'port'              => 953,
+       'allowed_addresses' => [ '127.0.0.1' ],
+       'keys'              => [ 'rndc-key' ]
+      },
+    }
+
+    if $facts['os']['family'] == 'Debian' {
         $package_name         = 'bind9'
         $service_name         = 'bind9'
         $bind_user            = 'bind'
@@ -48,7 +56,7 @@ class bind::params {
           fail('Chroot mode is not yet implemented for Debian in this module.')
         }
     }
-    elsif $::osfamily == 'RedHat' {
+    elsif $facts['os']['family'] == 'RedHat' {
         if $bind::chroot {
           $package_name         = 'bind-chroot'
           $service_name         = 'named-chroot'
@@ -62,7 +70,7 @@ class bind::params {
         $bind_user            = 'named'
         $bind_group           = 'named'
         $service_pattern      = undef
-        if versioncmp($::operatingsystemmajrelease,'7') < 0 {
+        if versioncmp($facts['os']['release']['major'],'7') < 0 {
           $service_restart      = "/etc/init.d/${service_name} restart"
           $service_has_status   = false
         } else {
@@ -96,6 +104,6 @@ class bind::params {
         }
     }
     else {
-        fail "Unknown ${::operatingsystem}"
+        fail "Unknown ${facts['os']['name']}"
     }
 }

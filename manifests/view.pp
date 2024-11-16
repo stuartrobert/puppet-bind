@@ -1,13 +1,10 @@
 define bind::view(
-  $ensure  = 'present',
-  $options = {
+  Enum['present', 'absent'] $ensure = 'present',
+  Hash $options = {
     'recursion' => 'no',
   },
-  $order  = 10,
+  Integer $order  = 10,
 ) {
-
-  validate_re($ensure, ['^present$', '^absent$'])
-  validate_hash($options)
 
   $_ensure = $ensure? {
     'present' => 'file',

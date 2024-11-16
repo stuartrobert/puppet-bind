@@ -19,48 +19,28 @@
 #  *$zone_notify*: IPs to use for also-notify entry
 #
 define bind::zone (
-  $ensure          = present,
-  $is_dynamic      = false,
-  $allow_update    = [],
-  $transfer_source = undef,
-  $view            = 'default',
-  $zone_type       = 'master',
-  $zone_ttl        = undef,
-  $zone_contact    = undef,
-  $zone_serial     = undef,
-  $zone_refresh    = '3h',
-  $zone_retry      = '1h',
-  $zone_expiracy   = '1w',
-  $zone_ns         = [],
+  Enum['present', 'absent'] $ensure = 'present',
+  Boolean $is_dynamic               = false,
+  Array $allow_update               = [],
+  Optional[String] $transfer_source = undef,
+  String $view                      = 'default',
+  String $zone_type                 = 'master',
+  Optional[Integer] $zone_ttl       = undef,
+  Optional[String] $zone_contact    = undef,
+  Optional[Integer] $zone_serial    = undef,
+  String $zone_refresh              = '3h',
+  String $zone_retry                = '1h',
+  String $zone_expiracy             = '1w',
+  Array $zone_ns                    = [],
   $zone_xfers      = undef,
   $zone_masters    = undef,
   $zone_forwarders = undef,
-  $zone_origin     = undef,
+  Optional[String] $zone_origin     = undef,
   $zone_notify     = undef,
-  $is_slave        = false,
+  Boolean $is_slave                 = false,
 ) {
 
   include ::bind::params
-
-  validate_string($ensure)
-  validate_re($ensure, ['present', 'absent'],
-              "\$ensure must be either 'present' or 'absent', got '${ensure}'")
-
-  validate_bool($is_slave)
-  validate_bool($is_dynamic)
-  validate_array($allow_update)
-  validate_string($transfer_source)
-  validate_string($view)
-  validate_string($zone_type)
-  validate_string($zone_ttl)
-  validate_string($zone_contact)
-  validate_string($zone_serial)
-  validate_string($zone_refresh)
-  validate_string($zone_retry)
-  validate_string($zone_expiracy)
-  validate_array($zone_ns)
-
-  validate_string($zone_origin)
 
   $_view = regsubst($view, '\s', '-', 'G')
 
@@ -99,13 +79,15 @@ define bind::zone (
         notify  => Exec['reload bind9'],
         require => Package['bind9'],
       }
+      concat::fragment {"${_view}.zone.${name}":
+        target  => "${bind::params::views_directory}/${_view}.zones",
+        content => "include \"${bind::params::zones_directory}/${name}.conf\";\n",
+        notify  => Exec['reload bind9'],
+        require => Package['bind9'],
+      }
 
       case $int_zone_type {
         'master': {
-          validate_re($zone_contact, '^\S+$', "Wrong contact value for ${name}!")
-          validate_slength($zone_ns, 255, 3)
-          validate_re($zone_serial, '^\d+$', "Wrong serial value for ${name}!")
-          validate_re($zone_ttl, '^\d+$', "Wrong ttl value for ${name}!")
 
           $conf_file = $is_dynamic? {
             true    => "${bind::params::dynamic_directory}/${name}.conf",

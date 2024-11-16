@@ -18,6 +18,15 @@ class bind::config {
   $conf = deep_merge($bind::params::default_config, $bind::config)
   $logging = deep_merge($bind::params::default_logging, $bind::logging)
 
+  $statistics_channels = $bind::statistics_channels
+
+  if $bind::controls {
+    $controls = $bind::controls
+  }
+  else {
+    $controls = $bind::params::default_controls
+  }
+
   file {"${bind::params::config_base_dir}/${bind::params::named_conf_name}":
     ensure  => file,
     content => template('bind/named.conf.erb'),
@@ -98,20 +107,6 @@ class bind::config {
     mode    => '0750',
     owner   => $bind::params::bind_user,
     seltype => 'named_log_t',
-  }
-
-  $opts = {
-
-      'include'       => "\"${bind::params::config_base_dir}/${bind::params::default_zones_file}\"",
-      'match-clients' => [ '"any"' ],
-      'recursion'     => 'no',
-    }
-
-  $options = deep_merge($opts, $bind::default_view)
-
-  ::bind::view {'default':
-    options => $options,
-    order   => 100,
   }
 
 }

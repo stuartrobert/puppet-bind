@@ -69,29 +69,17 @@
 # are renamed as $record_class and $record_type in this definition.
 #
 define bind::generate(
-  $zone,
-  $range,
-  $record_type,
-  $lhs,
-  $rhs,
-  $ensure       = present,
-  $record_class = undef,
-  $ttl          = undef,
+  String $zone,
+  String $range,
+  String $record_type,
+  String $lhs,
+  String $rhs,
+  Enum['present', 'absent'] $ensure = 'present',
+  Optional[String] $record_class    = undef,
+  Optional[String] $ttl             = undef,
 ) {
 
   include ::bind::params
-
-  validate_string($ensure)
-  validate_re($ensure, ['present', 'absent'],
-              "\$ensure must be either 'present' or 'absent', got '${ensure}'")
-
-  validate_string($zone)
-  validate_string($range)
-  validate_string($record_type)
-  validate_string($lhs)
-  validate_string($rhs)
-  validate_string($record_class)
-  validate_string($ttl)
 
   if $ensure == 'present' {
     ::concat::fragment {"${name}.generate":

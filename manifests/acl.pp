@@ -1,11 +1,7 @@
 define bind::acl(
-  $ensure=present,
-  $acls = [],
+  Enum['present', 'absent'] $ensure = 'present',
+  Array $acls                       = [],
 ) {
-
-  validate_array($acls)
-  validate_string($ensure)
-  validate_re($ensure, ['^present$', '^absent$'])
 
   $_ensure = $ensure? {
     'present' => 'file',
