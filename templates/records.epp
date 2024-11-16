@@ -17,12 +17,12 @@
       }
     }
     # We have a non-PTR record:
-    if defined($datas['ttl']) {
+    if $datas['ttl'] != undef {
       $_ttl = $datas['ttl']
     } else {
       $_ttl = ''
     }
-    if defined($datas['record_class']) {
+    if $datas['record_class'] != undef {
       $_rc = $datas['record_class']
     } else {
       $_rc = 'IN'
