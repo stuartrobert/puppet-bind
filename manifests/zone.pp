@@ -79,12 +79,6 @@ define bind::zone (
         notify  => Exec['reload bind9'],
         require => Package['bind9'],
       }
-      concat::fragment {"${_view}.zone.${name}":
-        target  => "${bind::params::views_directory}/${_view}.zones",
-        content => "include \"${bind::params::zones_directory}/${name}.conf\";\n",
-        notify  => Exec['reload bind9'],
-        require => Package['bind9'],
-      }
 
       case $int_zone_type {
         'master': {
