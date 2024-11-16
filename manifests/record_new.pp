@@ -24,10 +24,11 @@
 #          ...
 #        }
 #
-define bind::record (
+define bind::record_new (
   String $zone,
-  Hash $hash_data,
+  String $owner,
   String $record_type,
+  String $key = $title,
   Enum['present', 'absent'] $ensure  = 'present',
   $content                           = undef,
   Optional[String] $content_template = undef,

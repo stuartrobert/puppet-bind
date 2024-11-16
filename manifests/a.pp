@@ -28,7 +28,7 @@ define bind::a(
     fail "${content} and ${content_template} are mutually exclusive"
   }
 
-  bind::record {$name:
+  bind::records {$name:
     ensure           => $ensure,
     zone             => $zone,
     hash_data        => $hash_data,
@@ -38,7 +38,7 @@ define bind::a(
   }
 
   if $ptr {
-    bind::record {"PTR ${name}":
+    bind::records {"PTR ${name}":
       ensure           => $ensure,
       zone             => $zone_arpa,
       record_type      => 'PTR',
