@@ -35,7 +35,7 @@ Usage: bind_check_hostname(hostname, type)
     # Nothing left to check, and is_domain_name fails empty
     return true if domain == ''
 
-    return function_is_domain_name([domain])
+    return validate_domain_name([domain])
   end
 end
 
