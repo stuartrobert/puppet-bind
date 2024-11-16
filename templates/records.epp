@@ -5,7 +5,7 @@
 | -%>
 <%-
   $hash_data.each |$host, $datas| {
-    bind::bind_check_hostname([$host, $record_type])
+    # bind::bind_check_hostname([$host, $record_type])
     if  $record_type == 'PTR' {
       if $host != '@' {
         if $datas['ptr'] {
