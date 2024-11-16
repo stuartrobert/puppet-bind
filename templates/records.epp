@@ -1,6 +1,7 @@
 <%- | 
   Hash $hash_data,
   String $record_type,
+  String $ptr_zone,
 | -%>
 <%-
   $hash_data.sort.each |$host, $datas| {
@@ -10,7 +11,7 @@
         if $datas['ptr'] {
           require 'ipaddr'
 -%>
-<%= IPAddr.new($datas['owner']).reverse %>. <%= $datas.['ttl'], '') %> IN PTR <%= $host %>.<%= $ptr_zone %>.
+<%= IPAddr.new($datas['owner']).reverse %>. <%= $datas.fetch('ttl', '') %> IN PTR <%= $host %>.<%= $ptr_zone %>.
 <%- 
         }
       }

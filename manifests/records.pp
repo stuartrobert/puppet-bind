@@ -36,7 +36,11 @@ define bind::records (
   if ($content) {
     $record_content = $content
   } else {
-    $record_content = epp('bind/records.epp')
+    $record_content = epp('bind/records.epp', {
+      hash_data   => $hash_data,
+      record_type => $record_type,
+      ptr_zone    => $ptr_zone,
+    })
   }
 
   if $ensure == 'present' {
