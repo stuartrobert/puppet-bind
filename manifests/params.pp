@@ -91,7 +91,6 @@ class bind::params {
           'auth-nxdomain'          => 'no',
           'bindkeys-file'          => '"/etc/named.iscdlv.key"',
           'directory'              => '"/var/named"',
-          'dnssec-enable'          => 'yes',
           'dnssec-validation'      => 'yes',
           'dump-file'              => '"/var/named/data/cache_dump.db"',
           'managed-keys-directory' => '"/var/named/dynamic"',
